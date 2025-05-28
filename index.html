@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Akitils - A Hypixel Skyblock Utility Mod</title>
+    <style>
+        :root {
+            --primary-color: rgba(150, 120, 255, 0.3);
+            --secondary-color: rgba(180, 140, 255, 0.2);
+            --blur-amount: 15px;
+            --border-radius: 20px;
+            --text-color: #e0e0e0;
+            --highlight-color: #8a6dff;
+            --grid-color: rgba(138, 109, 255, 0.15);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: 
+                linear-gradient(135deg, #1a0c3e 0%, #3d1b6e 100%),
+                repeating-linear-gradient(0deg, var(--grid-color), var(--grid-color) 1px, transparent 1px, transparent 25px),
+                repeating-linear-gradient(90deg, var(--grid-color), var(--grid-color) 1px, transparent 1px, transparent 25px);
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+        
+        .glass-panel {
+            background: var(--primary-color);
+            backdrop-filter: blur(var(--blur-amount));
+            -webkit-backdrop-filter: blur(var(--blur-amount));
+            border-radius: var(--border-radius);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            padding: 2rem;
+            margin: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .glass-panel:hover {
+            background: var(--secondary-color);
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.5);
+        }
+        
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 3rem;
+        }
+        
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            color: white;
+            text-shadow: 0 0 15px var(--highlight-color);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 2rem;
+        }
+        
+        nav ul li a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+        }
+        
+        nav ul li a:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--highlight-color);
+            box-shadow: 0 0 10px rgba(138, 109, 255, 0.5);
+        }
+        
+        .hero {
+            text-align: center;
+            padding: 5rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(90deg, #a78bfa, #c4b5fd);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 20px rgba(138, 109, 255, 0.4);
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            line-height: 1.6;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(45deg, #8a6dff, #a78bfa);
+            color: white;
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin: 0.5rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(138, 109, 255, 0.5);
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 25px rgba(138, 109, 255, 0.7);
+            background: linear-gradient(45deg, #9b7cff, #b794fa);
+        }
+        
+        .secondary-button {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .secondary-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 15px rgba(138, 109, 255, 0.4);
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 3rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .feature-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            color: var(--highlight-color);
+            text-shadow: 0 0 10px rgba(138, 109, 255, 0.5);
+        }
+        
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #d1c4ff;
+        }
+        
+        .screenshots {
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+        
+        .screenshots h2 {
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            background: linear-gradient(90deg, #a78bfa, #d1c4ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .screenshot-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .screenshot {
+            border-radius: 10px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(138, 109, 255, 0.3);
+        }
+        
+        .screenshot img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.3s ease;
+        }
+        
+        .screenshot:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(138, 109, 255, 0.3);
+            border-color: rgba(138, 109, 255, 0.6);
+        }
+        
+        .screenshot:hover img {
+            transform: scale(1.05);
+        }
+        
+        footer {
+            text-align: center;
+            padding: 2rem;
+            margin-top: auto;
+        }
+        
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                padding: 1rem;
+            }
+            
+            nav ul {
+                margin-top: 1rem;
+            }
+            
+            nav ul li {
+                margin-left: 1rem;
+            }
+        
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .features {
+                grid-template-columns: 1fr;
+                padding: 2rem 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="glass-panel">
+        <div class="logo">Akitils</div>
+        <nav>
+            <ul>
+                <li><a href="#features">特徴</a></li>
+                <li><a href="#screenshots">スクリーンショット</a></li>
+                <li><a href="#download">ダウンロード</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <main>
+        <section class="hero">
+            <div class="glass-panel">
+                <h1>Minecraftの世界にあきを</h1>
+                <p>Akitils MODは、MinecraftのUIとブロックに美しいあき効果を追加します。あき感のある未来的なデザインで、あなたの建築とゲーム体験を一新します。</p>
+                <div>
+                    <a href="#download" class="cta-button">今すぐダウンロード</a>
+                    <a href="#features" class="cta-button secondary-button">特徴を見る</a>
+                </div>
+            </div>
+        </section>
+        
+        <section id="features" class="features">
+            <div class="feature-card glass-panel">
+                <div class="feature-icon">✨</div>
+                <h3>美しいあきブロック</h3>
+                <p>20種類以上の新しいあきブロックを追加。リアルな光の屈折と反射を再現。</p>
+            </div>
+            
+            <div class="feature-card glass-panel">
+                <div class="feature-icon">🖥️</div>
+                <h3>モダンなUI</h3>
+                <p>インベントリやメニュー画面があきスタイルに変更されます。</p>
+            </div>
+            
+            <div class="feature-card glass-panel">
+                <div class="feature-icon">⚙️</div>
+                <h3>カスタマイズ可能</h3>
+                <p>透明度、ぼかし効果、色などを設定ファイルで自由に調整可能。</p>
+            </div>
+        </section>
+        
+        <section id="screenshots" class="screenshots">
+            <h2>スクリーンショット</h2>
+            <div class="screenshot-grid">
+                <div class="screenshot glass-panel">
+                    <img src="https://i.imgur.com/AaaQkGL.png" alt="あきブロックの例">
+                </div>
+                <div class="screenshot glass-panel">
+                    <img src="https://i.imgur.com/aWpWFqN.png" alt="モダンなUI">
+                </div>
+                <div class="screenshot glass-panel">
+                    <img src="https://i.imgur.com/I0A9RvY.png" alt="建築例">
+                </div>
+                <div class="screenshot glass-panel">
+                    <img src="https://i.imgur.com/4QDPh5Z.png" alt="パーティーファインダー">
+                </div>
+            </div>
+        </section>
+        
+        <section id="download" class="hero">
+            <div class="glass-panel">
+                <h2>Akitilsを今すぐ体験</h2>
+                <p>Minecraft 1.16.5 ～ 1.20.1 に対応</p>
+                <div style="margin-top: 2rem;">
+                    <a href="#" class="cta-button">CurseForgeでダウンロード</a>
+                    <a href="#" class="cta-button secondary-button">Modrinthでダウンロード</a>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <footer class="glass-panel">
+        <p>2025 Akitils MOD Team. Minecraft is a trademark of Mojang Studios.</p>
+    </footer>
+</body>
+</html>
